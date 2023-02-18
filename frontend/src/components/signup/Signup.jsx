@@ -65,11 +65,13 @@ export default function Signup() {
       );
 
       if (data) {
+
         if (data.errors) {
-          const { username, email, password } = data.errors;
+          const { username, email, password,other } = data.errors;
           if (username) generateErrorToast(username);
           else if (email) generateErrorToast(email);
           else if (password) generateErrorToast(password);
+          else if (other) generateErrorToast(other);
         } else if(data.created) {
           navigate("/login");
         }

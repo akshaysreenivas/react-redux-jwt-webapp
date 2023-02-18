@@ -7,23 +7,28 @@ const jwt = require("jsonwebtoken");
 
 const maxAge = 3 * 24 * 60
 const createToken = (id) => {
-    return jwt.sign({ id }, "my first super secret key", { expiresIn: maxAge })
+        return jwt.sign({ id }, process.env.JWT_KEY, { expiresIn: maxAge })
 }
 
 // error handling  
 
 const handleSignupErrors = (err) => {
-    let errors = { username: "", email: "", password: "" }
+    let errors = { username: "", email: "", password: "", other: "" }
     if (err.code === 11000) {
         errors.email = "Email is already registred"
         return errors
     }
 
-    if (err.message.includes("Users validation failed")) {
+    else if (err.message.includes("Users validation failed")) {
         Object.values(err.errors).forEach(({ properties }) => {
             errors[properties.path] = properties.message;
         })
         return errors
+    }
+    else if (err) {
+        errors.other = "server error"
+        return errors
+
     }
 }
 
@@ -44,6 +49,7 @@ module.exports.register = async (req, res, next) => {
         res.status(201).json({ user: user._id, created: true })
 
     } catch (err) {
+        console.log(err)
         const errors = handleSignupErrors(err)
         res.json({ errors, created: false })
 

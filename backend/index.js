@@ -4,6 +4,7 @@ const app = express();
 const authRoutes=require("./Routes/AuthRoutes")
 const mongoose =require("mongoose")
 const cookieParser=require("cookie-parser")
+require('dotenv').config()
 
 // starting server  
 const port = 5000;
