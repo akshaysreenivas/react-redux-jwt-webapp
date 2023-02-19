@@ -1,4 +1,4 @@
-const userModel = require("../Models/UserModel")
+const adminModel = require("../Models/AdminModel")
 
 const jwt = require("jsonwebtoken")
 
@@ -10,8 +10,8 @@ module.exports.verifyUser = (req, res, next) => {
                 res.json({ verified: false });
                 next()
             } else {
-                const user = await userModel.findById(decodedToken.id)
-                if (user) res.json({ verified: true, user: user.username })
+                const admin = await adminModel.findById(decodedToken.id)
+                if (admin) res.json({ verified: true, admin: admin.username })
                 else res.json({ verified: false })
                 next();
             }
