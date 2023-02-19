@@ -9,10 +9,10 @@ const getProfile = async (req, res) => {
     try {
         const ID = req.body.userId
         const user = await UserModel.findById(ID)
-        if (!user) res.status(401).json({ status: false, error: "No User Found" });
+        if (!user) res.json({ status: false, error: "No User Found" });
         else res.status(200).json({ status: true, userName: user.username, profileUrl: user.profilePicURL })
     } catch (error) {
-        res.status(500).json({ error: "Something went wrong " })
+        res.json({ error: "Something went wrong " })
     }
 
 }
@@ -26,7 +26,7 @@ const handleError = (err) => {
        errors.error="invalid  file extension type"
         return errors
     }
-    errors.error="Something went wrong"
+  return  errors.error="Something went wrong"
 
 };
 

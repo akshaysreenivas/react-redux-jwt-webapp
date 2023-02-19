@@ -19,11 +19,12 @@ AdminSchema.statics.login = async function (username, password) {
         if (admin) {
             const auth = await bcrypt.compare(password, admin.password);
             if (auth) {
-                return user
+                return admin
             } else {
                 throw Error("incorrect password")
             }
         } else {
+            console.log("passwrod admin ilaaa")
             throw Error("invalid username")
         }
     } catch (err) {

@@ -8,28 +8,23 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 function Login() {
+  
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordType, setPasswordType] = useState("password");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [passwordType, setPasswordType] = useState(true);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const togglePassword = () => {
-    if (passwordType === "password") {
-      setPasswordType("text");
-      return;
-    }
-    setPasswordType("password");
+      setPasswordType(!passwordType);
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setEmailError("");
     setPasswordError("");
-    setErrorMessage("");
     if (!email || email.match(/^\s*$/)) {
       setEmailError("* required");
       return;
@@ -71,7 +66,6 @@ function Login() {
     <div className="loginParentDiv">
       <div className="loginDiv bg-light m-4">
         <h2 className="text-center">Login</h2>
-        <h4 className="text-danger">{errorMessage}</h4>
         <form onSubmit={handleLogin}>
           <label htmlFor="fname">Email</label>
           <input
@@ -88,7 +82,7 @@ function Login() {
           <div className="password_div">
             <input
               className="input "
-              type={passwordType === "password" ? "password" : "text"}
+              type={passwordType ? "password" : "text"}
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -96,7 +90,7 @@ function Login() {
             />
 
             <i className="Eye_icon link" onClick={togglePassword}>
-              {passwordType === "password" ? (
+              {passwordType ? (
                 <span className="material-icons"> visibility_off </span>
               ) : (
                 <span className="material-icons"> visibility </span>

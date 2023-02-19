@@ -14,15 +14,11 @@ export default function Signup() {
   const [PasswordError, setPasswordError] = useState("");
   const [NameError, setNameError] = useState("");
   const [EmailError, setEmailError] = useState("");
-  const [passwordType, setPasswordType] = useState("password");
+  const [passwordType, setPasswordType] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const togglePassword = () => {
-    if (passwordType === "password") {
-      setPasswordType("text");
-      return;
-    }
-    setPasswordType("password");
+      setPasswordType(!passwordType);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -113,14 +109,14 @@ export default function Signup() {
           <div className="password_div">
             <input
               className="input "
-              type={passwordType === "password" ? "password" : "text"}
+              type={passwordType  ? "password" : "text"}
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               name="password"
             />
             <i className="Eye_icon" onClick={togglePassword}>
-              {passwordType === "password" ? (
+              {passwordType ? (
                 <span className="material-icons"> visibility_off </span>
               ) : (
                 <span className="material-icons"> visibility </span>

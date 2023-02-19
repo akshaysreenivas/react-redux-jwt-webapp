@@ -125,7 +125,7 @@ function Profile() {
             />
           </button>
         ) : (
-          <button onClick={handleSubmit} className="uploadBtn  rounded">
+          <button onClick={handleSubmit} className="imgUploadBtn  rounded">
             Submit
           </button>
         )}
