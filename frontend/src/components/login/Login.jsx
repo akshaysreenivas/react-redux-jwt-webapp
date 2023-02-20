@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Spinner from "react-bootstrap/Spinner";
 import { toast, ToastContainer } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 function Login() {
-  
+  const [cookie] = useCookies([]);
   const navigate = useNavigate();
+  useEffect(() => {
+    if (cookie.jwt) {
+      navigate("/");
+      return;
+    }
+  }, [navigate, cookie.jwt]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordType, setPasswordType] = useState(true);
@@ -18,7 +24,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
 
   const togglePassword = () => {
-      setPasswordType(!passwordType);
+    setPasswordType(!passwordType);
   };
 
   const handleLogin = async (e) => {
@@ -49,9 +55,8 @@ function Login() {
 
       if (data) {
         if (data.errors) {
-          generateErrorToast(data.errors)
-        }
-       else if(data.loggedIn){
+          generateErrorToast(data.errors);
+        } else if (data.loggedIn) {
           navigate("/");
         }
       }

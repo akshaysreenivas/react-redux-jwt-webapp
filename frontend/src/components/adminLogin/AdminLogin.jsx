@@ -1,24 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./AdminLogin.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Spinner from "react-bootstrap/esm/Spinner";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 function AdminLogin() {
+  const [cookie] = useCookies([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (cookie.token){
+        navigate("/admin");
+        return
+    } 
+  }, [navigate, cookie.token]);
   const [username, setName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordType, setPasswordType] = useState(true);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   // toggle password visibility
 
   const togglePassword = () => {
     setPasswordType(!passwordType);
   };
 
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (!username || username.match(/^\s*$/)) {
       toast.error("username required", { position: "top-right" });
@@ -30,7 +38,7 @@ function AdminLogin() {
     }
 
     try {
-        setLoading(true)
+      setLoading(true);
       const { data } = await axios.post(
         "http://localhost:5000/admin/login",
         {
@@ -40,13 +48,13 @@ function AdminLogin() {
         { withCredentials: true }
       );
       if (data.status) {
-        navigate("/admin/home");
+        navigate("/admin");
       } else {
         toast.error(data.errors, { position: "top-right" });
       }
-      setLoading(false)
-    } catch(error) {
-        setLoading(false)
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
       toast.error("Server error", { position: "top-right" });
     }
   };

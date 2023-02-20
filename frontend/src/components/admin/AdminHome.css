@@ -1,0 +1,13 @@
+nav{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-between;
+    z-index: 1000;
+}
+.new_user_add button{
+    background-color: azure;
+    color: black;
+    border: 3px dotted black;
+}

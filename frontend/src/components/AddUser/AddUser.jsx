@@ -2,21 +2,21 @@ import { useEffect, useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import "./Signup.css";
+import "./AddUser.css";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { useCookies } from 'react-cookie';
 
-export default function Signup() {
+export default function AddUser() {
   const [cookie] = useCookies([]);
   const navigate = useNavigate();
   useEffect(() => {
-  if (cookie.jwt){
-    navigate("/");
+  if (!cookie.token){
+    navigate("/admin/login");
     return
   } 
   
-}, [navigate,cookie.jwt])
+}, [navigate,cookie.token])
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -78,7 +78,7 @@ export default function Signup() {
           else if (password) generateErrorToast(password);
           else if (other) generateErrorToast(other);
         } else if(data.created) {
-          navigate("/login");
+          navigate("/admin");
         }
       }
       setLoading(false);
@@ -91,7 +91,7 @@ export default function Signup() {
   return (
     <div className="signupParentDiv">
       <div className="signupDiv bg-light m-4">
-        <h2 className="text-center">Create Account</h2>
+        <h2 className="text-center">Create New User</h2>
         <form onSubmit={handleSubmit}>
           <label htmlFor="fname">Username</label>
           <input
@@ -146,18 +146,9 @@ export default function Signup() {
               />
             </button>
           ) : (
-            <button>Signup</button>
+            <button>Create</button>
           )}
         </form>
-        <div className="text-center d-block m-auto">
-          <span>Already have an account ? </span>
-          <span
-            className="link text-primary"
-            onClick={() => navigate("/login")}
-          >
-            Login
-          </span>
-        </div>
       </div>
       <ToastContainer />
     </div>

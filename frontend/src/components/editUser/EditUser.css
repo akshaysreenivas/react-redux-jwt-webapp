@@ -1,0 +1,53 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  .EditParentDiv {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(236, 236, 238);
+    overflow: hidden;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  .EditDiv{
+      border-radius: 8px;
+    border: 1px solid black;
+    padding: 20px;
+    width: 370px;
+  }
+  .EditDiv form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      padding: 5px;
+    }
+    
+  
+    
+    input {
+      padding: 0.5rem;
+      border-radius: 0.3rem;
+      border: 1px solid gray;
+      font-size: 1.1rem;
+    }
+ 
+  .EditDiv button {
+    background-color: rgb(80, 98, 255);
+    color: white;
+    border: none;
+    margin-top: 15px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 0.3rem;
+  }
+  .link{
+      cursor: pointer;
+  }

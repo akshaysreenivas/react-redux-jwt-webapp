@@ -9,35 +9,35 @@ import Spinner from "react-bootstrap/esm/Spinner";
 
 function Profile() {
   const navigate = useNavigate();
+  const [cookie, setCookie, removeCookie] = useCookies([]);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [profileUrl, setProfileUrl] = useState("");
-
-  const [cookie, setCookie, removeCookie] = useCookies([]);
-
+  
   useEffect(() => {
-    if (!cookie.jwt) navigate("/login");
-    else {
-      const fetchData = async () => {
-        const { data } = await axios.post(
-          "http://localhost:5000",
-          {},
-          { withCredentials: true }
-        );
-
-        if (data.status) {
-          setName(data.userName);
-          setProfileUrl(data.profileUrl);
-        } else {
-          removeCookie("jwt");
-          navigate("/login");
-        }
-      };
-      fetchData();
+    if (!cookie.jwt) {
+      navigate("/login");
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const fetchData = async () => {
+      const { data } = await axios.post(
+        "http://localhost:5000",
+        {},
+        { withCredentials: true }
+      );
+
+      if (data.status) {
+        setName(data.userName);
+        setProfileUrl(data.profileUrl);
+      } else {
+        removeCookie("jwt");
+        navigate("/login");
+      }
+    };
+    fetchData();
+
+  }, [cookie.jwt,navigate,removeCookie]);
 
   const handleSubmit = async () => {
     if (!image) {

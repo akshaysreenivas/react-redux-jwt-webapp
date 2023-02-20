@@ -49,7 +49,7 @@ module.exports.register = async (req, res, next) => {
 
     } catch (err) {
         const errors = handleSignupErrors(err)
-        res.status(400).json({ errors, created: false })
+        res.json({ errors, created: false })
 
 
     }
@@ -77,6 +77,6 @@ module.exports.login = async (req, res, next) => {
         res.status(200).json({ user: user._id, loggedIn: true })
     } catch (err) {
         const errors = handleLoginError(err)
-        res.status(401).json({ errors, loggedIn: false })
+        res.json({ errors, loggedIn: false })
     }
 };

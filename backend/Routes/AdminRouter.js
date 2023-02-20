@@ -1,12 +1,13 @@
-const { verify } = require("jsonwebtoken");
-const { getAllUsers, adminLogin } = require("../Controllers/AdminController");
-const { register, login } = require("../Controllers/AuthController");
-const { verifyUser } = require("../Middlewares/UserAuth");
-
+const { getAllUsers, adminLogin,deleteUser, editUser } = require("../Controllers/AdminController");
+const { verifyAdmin } = require("../Middlewares/AdminAuth");
 const router=require("express").Router();
+
+
 
 router.post("/login",adminLogin);
 
-router.post("/getUsers",getAllUsers)
+router.post("/getUsers",verifyAdmin,getAllUsers)
+router.post("/editUser",verifyAdmin,editUser)
+router.post("/deleteUser",verifyAdmin,deleteUser)
 
 module.exports=router;

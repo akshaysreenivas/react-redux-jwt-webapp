@@ -24,7 +24,6 @@ AdminSchema.statics.login = async function (username, password) {
                 throw Error("incorrect password")
             }
         } else {
-            console.log("passwrod admin ilaaa")
             throw Error("invalid username")
         }
     } catch (err) {
