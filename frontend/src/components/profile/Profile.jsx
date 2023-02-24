@@ -41,7 +41,7 @@ function Profile() {
 
   const handleSubmit = async () => {
     if (!image) {
-      toast.error("select an image", { position: "top-right" });
+      toast.error("select an image", { position: "top-center" });
       return;
     }
 
@@ -50,7 +50,7 @@ function Profile() {
       const formData = new FormData();
       formData.append("image", image);
       const { data } = await axios.post(
-        "http://localhost:5000/upload_image",
+        `${process.env.REACT_APP_USER_SERVER_API}/upload_image`,
         { image, profileUrl },
         {
           headers: {
@@ -61,15 +61,15 @@ function Profile() {
       );
       if (data.status) {
         setProfileUrl(data.profileUrl);
-        toast(data.message, { position: "top-right" });
+        toast(data.message, { position: "top-center" });
       } else {
-        toast.error(data.error, { position: "top-right" });
+        toast.error(data.error, { position: "top-center" });
       }
 
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      toast.error("Something went wrong", { position: "top-right" });
+      toast.error("Something went wrong", { position: "top-center" });
     }
   };
 

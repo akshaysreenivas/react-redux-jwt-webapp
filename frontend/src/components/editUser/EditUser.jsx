@@ -41,20 +41,20 @@ export default function EditUser() {
     setLoading(true);
 
     const generateErrorToast = (err) =>
-      toast.error(err, { position: "top-right" });
+      toast.error(err, { position: "top-center" });
 
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/admin/editUser",
+        `${process.env.REACT_APP_ADMIN_SERVER_API}/editUser`,
         { username, email, userId: user.id },
         { withCredentials: true }
       );
       if (data.status) {
         navigate("/admin");
       } else if (data.codeName === "DuplicateKey") {
-        toast.error("Email already exists", { position: "top-right" });
+        toast.error("Email already exists", { position: "top-center" });
       } else {
-        toast.error("something went wrong", { position: "top-right" });
+        toast.error("something went wrong", { position: "top-center" });
       }
 
       if (data) {

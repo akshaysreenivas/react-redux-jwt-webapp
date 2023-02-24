@@ -29,18 +29,18 @@ function AdminLogin() {
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!username || username.match(/^\s*$/)) {
-      toast.error("username required", { position: "top-right" });
+      toast.error("username required", { position: "top-center" });
       return;
     }
     if (!password || password.match(/^\s*$/)) {
-      toast.error("password required", { position: "top-right" });
+      toast.error("password required", { position: "top-center" });
       return;
     }
 
     try {
       setLoading(true);
       const { data } = await axios.post(
-        "http://localhost:5000/admin/login",
+        `${process.env.REACT_APP_ADMIN_SERVER_API}/login`,
         {
           username,
           password,
@@ -50,12 +50,12 @@ function AdminLogin() {
       if (data.status) {
         navigate("/admin");
       } else {
-        toast.error(data.errors, { position: "top-right" });
+        toast.error(data.errors, { position: "top-center" });
       }
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      toast.error("Server error", { position: "top-right" });
+      toast.error("Server error", { position: "top-center" });
     }
   };
   return (

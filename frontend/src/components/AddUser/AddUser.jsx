@@ -59,10 +59,10 @@ export default function AddUser() {
     setLoading(true);
 
     const generateErrorToast = (err) =>
-      toast.error(err, { position: "top-right" });
+      toast.error(err, { position: "top-center" });
 
     try {
-      const { data } = await axios.post("http://localhost:5000/register",{
+      const { data } = await axios.post(`${process.env.REACT_APP_USER_SERVER_API}/register`,{
           username: username,
           email: email,
           password: password,

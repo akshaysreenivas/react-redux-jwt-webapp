@@ -21,7 +21,7 @@ function AdminHome() {
     }
     const fetchData = async () => {
       const { data } = await axios.post(
-        "http://localhost:5000/admin/getUsers",
+        `${process.env.REACT_APP_ADMIN_SERVER_API}/admin/getUsers`,
         {},
         { withCredentials: true }
       );
@@ -75,7 +75,7 @@ function AdminHome() {
                 const handleDelete = async () => {
                   const userId = item._id;
                   const { data } = await axios.post(
-                    "http://localhost:5000/admin/deleteUser",
+                    `${process.env.REACT_APP_ADMIN_SERVER_API}/deleteUser`,
                     {
                       userId: userId,
                     },
@@ -86,7 +86,7 @@ function AdminHome() {
                       (item) => item._id !== userId
                     );
                     setUsers(newusers);
-                    toast("Successfully Deleted", { position: "top-right" });
+                    toast("Successfully Deleted", { position: "top-center" });
                   }
                 };
                 return (
