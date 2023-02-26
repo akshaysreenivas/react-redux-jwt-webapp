@@ -13,7 +13,6 @@ function AdminHome() {
   const [users, setUsers] = useState([]);
   const [cookie, setCookie, removeCookie] = useCookies([]);
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (!cookie.token) {
       navigate("/admin/login");
@@ -21,7 +20,7 @@ function AdminHome() {
     }
     const fetchData = async () => {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_ADMIN_SERVER_API}/admin/getUsers`,
+        `${process.env.REACT_APP_ADMIN_SERVER_API}/getUsers`,
         {},
         { withCredentials: true }
       );

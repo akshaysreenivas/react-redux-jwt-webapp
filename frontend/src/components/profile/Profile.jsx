@@ -29,6 +29,7 @@ function Profile() {
 
       if (data.status) {
         setName(data.userName);
+        setImage(null)
         setProfileUrl(data.profileUrl);
       } else {
         removeCookie("jwt");
