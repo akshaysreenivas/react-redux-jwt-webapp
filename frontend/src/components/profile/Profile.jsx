@@ -6,30 +6,36 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { toast, ToastContainer } from "react-toastify";
 import Spinner from "react-bootstrap/esm/Spinner";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 function Profile() {
   const navigate = useNavigate();
   const [cookie, setCookie, removeCookie] = useCookies([]);
   const [image, setImage] = useState(null);
+  const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [profileUrl, setProfileUrl] = useState("");
-  
+
   useEffect(() => {
+    // redirect to login page if not logged in
     if (!cookie.jwt) {
       navigate("/login");
       return;
     }
+
+    // fetching  user details from the server
+
     const fetchData = async () => {
       const { data } = await axios.post(
-        "http://localhost:5000",
+        process.env.REACT_APP_USER_SERVER_API,
         {},
         { withCredentials: true }
       );
 
       if (data.status) {
         setName(data.userName);
-        setImage(null)
         setProfileUrl(data.profileUrl);
       } else {
         removeCookie("jwt");
@@ -37,15 +43,17 @@ function Profile() {
       }
     };
     fetchData();
+  }, [cookie.jwt, navigate, removeCookie]);
 
-  }, [cookie.jwt,navigate,removeCookie]);
+  // handing the image upload
 
   const handleSubmit = async () => {
+    // abort if no image selected
+
     if (!image) {
       toast.error("select an image", { position: "top-center" });
       return;
     }
-
     setLoading(true);
     try {
       const formData = new FormData();
@@ -63,6 +71,8 @@ function Profile() {
       if (data.status) {
         setProfileUrl(data.profileUrl);
         toast(data.message, { position: "top-center" });
+        setImage(null);
+        setEdit(false);
       } else {
         toast.error(data.error, { position: "top-center" });
       }
@@ -73,6 +83,15 @@ function Profile() {
       toast.error("Something went wrong", { position: "top-center" });
     }
   };
+  // canceling the request
+  const handleCancelUpload = () => {
+    const controller = new AbortController();
+    controller.abort();
+    setImage(null);
+    setEdit(false);
+  };
+
+  // logging out then user
 
   const logout = () => {
     removeCookie("jwt");
@@ -92,43 +111,71 @@ function Profile() {
         style={{
           backgroundImage: `url(${
             profileUrl
-              ? "http://localhost:5000" + profileUrl
+              ? process.env.REACT_APP_USER_SERVER_API + profileUrl
               : "https://gbaglobal.org/wp-content/plugins/buddyboss-platform/bp-core/images/profile-avatar-buddyboss.png"
           })`,
         }}
         className="profilePic"
       ></div>
-
+      {console.log(image, "nvdnssndljkds")}
       <div className="d-flex justify-content-center  pic rounded">
         {image ? (
           <img
             alt="Posts"
             width="200px"
             height="200px"
-            src={image ? URL.createObjectURL(image) : "jj"}
+            src={URL.createObjectURL(image)}
           ></img>
         ) : (
-          <span className="material-icons">cloud_upload</span>
+          <div>
+            <label htmlFor="image-upload">
+              <div onClick={() => setEdit(true)} className="upload-icon-div">
+                <span className="material-icons">cloud_upload</span>
+                <span>upload</span>
+              </div>
+            </label>
+            <input
+              id="image-upload"
+              type="file"
+              onChange={(e) => setImage(e.target.files[0])}
+              accept="image/*"
+              style={{ display: "none" }}
+            />
+          </div>
         )}
       </div>
       <div className="m-auto d-flex outline-0 justify-content-center">
-        <input onChange={(e) => setImage(e.target.files[0])} type="file" />
-      </div>
-      <div className="d-flex justify-content-center my-2">
-        {loading ? (
-          <button className="imgUploadBtn  rounded">
-            <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-            />
-          </button>
+        {edit ? (
+          <div className="d-flex justify-content-end align-items-center my-2">
+            {loading ? (
+              <button className="imgUploadBtn  rounded">
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              </button>
+            ) : (
+              <button onClick={handleSubmit} className="imgUploadBtn  rounded">
+                Submit
+              </button>
+            )}
+            <span
+              style={{ display: image ? "" : "none" }}
+              data-tooltip-content="Cancel"
+              data-tooltip-id="cancel-tooltip"
+              data-tooltip-place="bottom"
+              onClick={handleCancelUpload}
+              className="material-icons m-2 cancel-icon"
+            >
+              cancel
+            </span>
+            <Tooltip id="cancel-tooltip" />
+          </div>
         ) : (
-          <button onClick={handleSubmit} className="imgUploadBtn  rounded">
-            Submit
-          </button>
+          ""
         )}
       </div>
       <ToastContainer />

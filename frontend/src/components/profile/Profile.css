@@ -1,27 +1,43 @@
-.pic{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    width: 250px;
-    height: 250px;
-    border: 1px dotted black;
+.pic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 250px;
+  height: 250px;
+  border: 1px dotted black;
 }
-.imgUploadBtn{
-    width: 150px;
+.imgUploadBtn {
+  width: 150px;
 }
-nav{
-    display: flex;
-    width: 100%;
-    align-items: center;
-    padding: 20px;
-    justify-content: space-between;
+nav {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 20px;
+  justify-content: space-between;
 }
-.profilePic{
-    width: 150px;
-    height: 150px;
-    background:  no-repeat center center/cover;
-    border-radius: 50%;
-    margin: 20px;
-    border:5px solid rgb(187, 0, 255);
+.profilePic {
+  width: 150px;
+  height: 150px;
+  background: no-repeat center center/cover;
+  border-radius: 50%;
+  margin: 20px;
+  border: 5px solid rgb(187, 0, 255);
+}
+.upload-icon-div {
+  cursor: pointer;
+  color: blue;
+  border: 1px dotted blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 5px;
+  border-radius: 5px;
+}
+.cancel-icon:hover{
+    cursor: pointer;
+    background-color: black;
+    color: aliceblue;
 }

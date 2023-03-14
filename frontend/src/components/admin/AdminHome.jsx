@@ -10,6 +10,7 @@ import { setUserDetails } from "../../features/UserSlice";
 
 function AdminHome() {
   const navigate = useNavigate();
+
   const [users, setUsers] = useState([]);
   const [cookie, setCookie, removeCookie] = useCookies([]);
   const dispatch = useDispatch();
